@@ -14,3 +14,7 @@ bin/ofMaker
 lib
 *.mk
 *.workspace.session
+*.workspace
+*.project
+build
+.codelite
