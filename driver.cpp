@@ -15,5 +15,10 @@ int main(int argc, char** argv) {
 			
 	auto tokens = lexer->generateTokens();
 
+	for (auto token: tokens) {
+		cout << "token: " << token.getName() << " ";
+		cout << "type: " << token.getType() << endl;
+	}
+
 	return 0;
 }
