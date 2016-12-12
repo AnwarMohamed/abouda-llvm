@@ -66,4 +66,4 @@ add_subdirectory(test)
 
 add_executable(driver driver.cpp)
 
-target_link_libraries(driver parser lexer ast tokens)
+target_link_libraries(driver parser lexer ast)

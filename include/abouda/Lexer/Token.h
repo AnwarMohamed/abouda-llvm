@@ -1,17 +1,17 @@
-#ifndef BASE_PARSER_H
-#define BASE_PARSER_H
+#ifndef TOKEN_H
+#define TOKEN_H
 
 #include <string>
 
 using namespace std;
 
 namespace Abouda {
-	namespace Tokens {
+	namespace Lexer {
 
-		class BaseToken {
+		class Token {
 		public:
-			BaseToken();
-			~BaseToken();
+			Token();
+			~Token();
 
 			virtual string getLexeme();
 			virtual string getType();

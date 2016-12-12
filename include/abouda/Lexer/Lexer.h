@@ -5,32 +5,31 @@
 #include <fstream>
 #include <vector>
 
-#include "abouda/Tokens/BaseToken.h"
+#include "abouda/Lexer/Token.h"
 
-using namespace Abouda;
-using namespace Abouda::Tokens;
+using namespace Abouda::Lexer;
 
 using namespace std;
 
-namespace Abouda {		
+namespace Abouda {          
+    namespace Lexer {
+        class Lexer {
+        public:
+            Lexer(char* filePath);
+            ~Lexer();
 
-	class Lexer {
-	public:
-		Lexer(char* filePath);
-		~Lexer();
+            bool isReady();
+            vector<Token*> generateTokens();
 
-		bool isReady();
-		vector<BaseToken*> generateTokens();
+        private:
+            ifstream fileStream;
+            char* filePath;
 
-	private:
-		ifstream fileStream;
-		char* filePath;
-
-   		string delimiter;
-    	string token;
-    	int tokenChar;
-	};
-
+            string delimiter;
+            string token;
+            int tokenChar;
+        };  
+    }
 }
 
 #endif
