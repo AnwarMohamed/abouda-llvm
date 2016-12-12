@@ -20,7 +20,7 @@ namespace Abouda {
 		~Lexer();
 
 		bool isReady();
-		vector<BaseToken> generateTokens();
+		vector<BaseToken*> generateTokens();
 
 	private:
 		ifstream fileStream;
