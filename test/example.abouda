@@ -1,0 +1,42 @@
+fn main() {
+    if 1 > 2 {
+
+    } elseif 2 >= 1 {
+
+    } else {
+
+    }
+
+    match "test" {
+        "test" => {}
+        "test1" => {}
+        _ => {}
+    }
+
+    a = 1234
+    b = 12.34
+    c = []
+
+    b = [a, b, c]
+    d = ['test' => b]
+
+    d['test'] = a
+
+    e = [
+        "test1" => [],
+        "test2" => 12.34,
+        "test3" => [
+            "test4" => "test5"
+        ],
+    ]
+
+    f = a + b
+
+    for i in b {
+        break;
+        continue;
+    }
+
+    f = [1, 2, 3, 4, 5]
+    f[0] = 5
+}
