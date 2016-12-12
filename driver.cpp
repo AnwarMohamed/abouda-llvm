@@ -6,20 +6,20 @@ using namespace std;
 
 
 int main(int argc, char** argv) {
-	if (argc != 2)
-		return -1;
+    if (argc != 2)
+        return -1;
 
-	auto lexer = new Lexer(argv[1]);
+    auto lexer = new Lexer(argv[1]);
 
-	if (!lexer->isReady())
-		return -1;
-			
-	auto tokens = lexer->generateTokens();
+    if (!lexer->isReady())
+        return -1;
+            
+    auto tokens = lexer->generateTokens();
 
-	for (auto token: tokens) {
-		cout << "token: " << token->getLexeme() << " ";
-		cout << "type: " << token->getType() << endl;
-	}
+    for (auto token: tokens) {
+        cout << "token: " << token->getLexeme() << " ";
+        cout << "type: " << token->getType() << endl;
+    }
 
-	return 0;
+    return 0;
 }
