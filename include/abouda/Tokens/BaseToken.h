@@ -13,10 +13,10 @@ namespace Abouda {
 			BaseToken();
 			~BaseToken();
 
-			virtual string getName();
+			virtual string getLexeme();
 			virtual string getType();
 		private:
-			string name;
+			string lexeme;
 			string type;
 		};
 
