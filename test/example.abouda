@@ -19,6 +19,7 @@ fn main() {
 
     b = [a, b, c]
     d = ['test' => b]
+    g = true
 
     d['test'] = a
 

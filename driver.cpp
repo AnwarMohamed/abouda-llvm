@@ -20,6 +20,8 @@ int main(int argc, char** argv) {
         cout << "token: " << token->getLexeme() << " ";
         cout << "type: " << token->getType() << endl;
     }
+    
+    delete lexer;
 
     return 0;
 }
