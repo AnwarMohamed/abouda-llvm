@@ -11,7 +11,7 @@ release
 *.pyc
 bin
 bin/ofMaker
-lib
+
 *.mk
 *.workspace.session
 *.workspace
