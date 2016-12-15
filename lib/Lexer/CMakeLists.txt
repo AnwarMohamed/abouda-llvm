@@ -4,6 +4,7 @@ add_definitions(-std=c++11)
 
 set(SRC_FILES
     Lexer.cpp
+    LexerException.cpp
     Token.cpp  
     Dfa.cpp
 )

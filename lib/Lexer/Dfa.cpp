@@ -1,5 +1,6 @@
 #include <iostream>
 #include "abouda/Lexer/Dfa.h"
+#include "abouda/Lexer/Lexer.h"
 
 using namespace Abouda::Lexer;
 using namespace std;
@@ -7,6 +8,7 @@ using namespace std;
 DfaTree::DfaTree() 
 {
     rootNode = new DfaNode("root");
+    rootNode->setAllowed(kAlpha);
 }
 
 DfaNode* DfaTree::getRoot()
@@ -19,19 +21,25 @@ void DfaTree::insertNode(char* value)
     DfaNode* node = rootNode;
     
     int valueLen = strlen(value), valuePtr = 0;
-    int valueChar = *(value + valuePtr);
-
-    // cout << valueLen << ": " << value << endl;
+    int valueChar = *(value + valuePtr);    
 
     while (valuePtr < valueLen) {
-        if (node->hasChild(string(1, valueChar))) {
-            node = node->getChild(string(1, valueChar));
+        if (node->hasChild(valueChar)) {
+            node = node->getChild(valueChar);
         } else {
-            node = node->addChild(string(1, valueChar));
-        }
+            node = node->addChild(valueChar);
+        }        
+
+        if (isalnum(valueChar))
+            node->setAllowed(kAlphaNum);
+        else if (valueLen - valuePtr  == 2)
+            node->setAllowed(string(1, *(value + valuePtr + 1)));
 
         if (valuePtr + 1 == valueLen)
             node->setReserved(true);
+
+        cout << (valueLen-valuePtr+1) << ": " << value << "\t";
+        cout <<  (char) valueChar << "\t" << node->getAllowed() << endl;
 
         valueChar = *(value + ++valuePtr);        
     }
@@ -79,32 +87,37 @@ string DfaNode::getValue()
     return value;
 }
 
-bool DfaNode::hasChild(string value)
+bool DfaNode::hasChild(int value)
 {
-    return children.find(value) != children.end();
+    return children.find(string(1, value)) != children.end();
 }
 
-DfaNode* DfaNode::getChild(string value)
+DfaNode* DfaNode::getChild(int value)
 {
-    return children.find(value)->second;
+    return children.find(string(1, value))->second;
 }
 
-DfaNode* DfaNode::addChild(string value)
+DfaNode* DfaNode::addChild(int value)
 {
-    DfaNode* node = new DfaNode(value);
-    children[value] = node;
+    DfaNode* node = new DfaNode(string(1, value));
+    children[string(1, value)] = node;
 
     return node;
 }
 
-bool DfaNode::isAllowed(string value)
+string DfaNode::getAllowed() 
 {
-    return false;
+    return allowed;
 }
 
-void DfaNode::setAllowed(string value)
+bool DfaNode::isAllowed(int value)
 {
+    allowed.find(value) != string::npos;
+}
 
+void DfaNode::setAllowed(string allowed)
+{
+    this->allowed = allowed;    
 }
 
 bool DfaNode::isReserved()

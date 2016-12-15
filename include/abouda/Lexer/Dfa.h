@@ -17,21 +17,22 @@ namespace Abouda {
             DfaNode(string value);
             ~DfaNode();
 
-            bool hasChild(string value);
-            DfaNode* getChild(string value);
-            DfaNode* addChild(string value);
+            bool hasChild(int value);
+            DfaNode* getChild(int value);
+            DfaNode* addChild(int value);
 
             map<string, DfaNode*> getChildren();
             string getValue();
 
-            bool isAllowed(string value);
+            bool isAllowed(int value);
             void setAllowed(string value);
+            string getAllowed();
 
             bool isReserved();
             void setReserved(bool reserved);
         private:
             string value;
-            vector<string> allowed;
+            string allowed;
             map<string, DfaNode*> children;
 
             bool reserved;
