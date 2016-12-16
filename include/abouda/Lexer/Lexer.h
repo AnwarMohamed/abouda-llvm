@@ -62,16 +62,16 @@ namespace Abouda {
             char* filePath;
 
             string delimiter;
+            string tokenLine;            
             string token;
 
             int tokenChar;
             int tokenX, tokenY;
 
-            DfaTree* dfaTree;
-            void constructDfaTree();
+            DfaNode* tokenNode;
 
-            void getChar();
-            void ungetChar();            
+            DfaTree* dfaTree;            
+            void constructDfaTree();          
         };  
 
     }

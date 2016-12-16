@@ -17,12 +17,12 @@ int main(int argc, char** argv) {
             
     auto tokens = lexer->generateTokens();
 
-    // for (auto token: tokens) {
-    //     cout << left << setw(10) << to_string(token->getY() + 1) + ":" + to_string(token->getX() + 1);
-    //     cout << left << setw(20) << token->getType();
-    //     cout << left << setw(20) << "'" + token->getLexeme() + "'";        
-    //     cout << endl;
-    // }
+    for (auto token: tokens) {
+        cout << left << setw(10) << to_string(token->getY() + 1) + ":" + to_string(token->getX() + 1);
+        cout << left << setw(20) << token->getType();
+        cout << left << setw(20) << "'" + token->getLexeme() + "'";        
+        cout << endl;
+    }
     
     delete lexer;
 

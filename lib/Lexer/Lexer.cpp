@@ -38,110 +38,122 @@ vector<Token*> Lexer::generateTokens() throw()
 
     fileStream.clear();
     fileStream.seekg(0, ios::beg);    
-
-    DfaNode* node;    
     
     bool tokenBool = false;
 
-    while (!fileStream.eof()) {        
-        node = dfaTree->getRoot();
-        getChar();
+    while (std::getline(fileStream, tokenLine)) {
+        tokenNode = dfaTree->getRoot();
+        tokenY = tokenY + 1;
 
-        while (delimiter.find(tokenChar) == string::npos && tokenChar != -1) {
-            cout << tokenY << "\t" << tokenX << "\t'" << (char) tokenChar << "'" << endl;
+        for (int i=0, tokenX=0; i<tokenLine.length(); i++, tokenX++) {
+            tokenChar = tokenLine[i];
 
-            cout << "START CHILDREN" << endl;
+            if (delimiter.find(tokenChar) != string::npos) {
+                if (token.size() > 0) {
+                    tokens.push_back(Token::fromString(
+                        token, tokenBool, tokenX - token.length(), tokenY));                
+                    token.clear();
+                }
 
-            for (const auto& kv : node->getChildren()) {
-                cout << kv.first;
-            }
+                continue;
+            }    
 
-            cout << endl;
+            // cout << tokenY << "\t" << tokenX << "\t'" << (char) tokenChar << "'" << endl;
 
-            cout << "FINISH CHILDREN" << endl;
-
-            // cout << "START ALLOWED" << endl;
-            // cout << node->getAllowed() << endl;
-            // cout << "FINISH ALLOWED" << endl;
-
-            if (node->isAllowed(tokenChar)) {
-                if (node->hasChild(tokenChar)) {
+            if (tokenNode->isAllowed(tokenChar)) {
+                if (tokenNode->hasChild(tokenChar)) {
                     cout << "IS CHILD" << endl;
 
                     token += tokenChar;
-                    tokenBool = node->isReserved();
+                    tokenBool = tokenNode->isReserved();
                 
-                    node = node->getChild(tokenChar);
-                    getChar();
-                                        
+                    tokenNode = tokenNode->getChild(tokenChar);                                                            
                 } else {                    
                     cout << "NOT CHILD" << endl;
 
                     token += tokenChar;
-                    tokenBool = false;
-
-                    getChar();
+                    tokenBool = false;                    
                 }
             } else {
                 cout << "NOT ALLOWED" << endl;
 
-                if (node == dfaTree->getRoot())
+                if (tokenNode == dfaTree->getRoot())
                     throw new LexerException();
                 else {
-                    ungetChar();
-                    break;                
+
+                    if (token.size() > 0) {
+                        tokens.push_back(Token::fromString(
+                            token, tokenBool, tokenX - token.length(), tokenY));                
+                        token.clear();
+                    } 
+
+                    tokenNode = dfaTree->getRoot();
+                    tokenX--;
+                    i--;                             
                 }
-            }
+        }        
         }
-
-        if (token.size() > 0) {            
-            tokens.push_back(Token::fromString(token, tokenBool, tokenX - token.length(), tokenY));
-        }
-
-        token.clear();        
-
-        // while (!fileStream.eof() && 
-        //     (delimiter.find(tokenChar) != string::npos))
-        //         tokenChar = fileStream.get();
-
-        // if (isalpha(tokenChar)) {
-
-        // }
-
-        // if (isdigit(tokenChar)) {
-
-        // }
-
-        // if (tokenChar == '#') {
-        //     while (!fileStream.eof() && 
-        //         (tokenChar != '\n'))
-        //             tokenChar = fileStream.get();
-        // }
-
-        // cout << (char) tokenChar << endl;
     }
+
+    // while (!fileStream.eof()) {        
+    //     tokenNode = dfaTree->getRoot();
+    //     getChar();
+
+    //     while (delimiter.find(tokenChar) == string::npos && tokenChar != -1) {
+    //         cout << tokenY << "\t" << tokenX << "\t'" << (char) tokenChar << "'" << endl;
+
+    //         cout << "START CHILDREN" << endl;
+
+    //         for (const auto& kv : tokenNode->getChildren()) {
+    //             cout << kv.first;
+    //         }
+
+    //         cout << endl;
+
+    //         cout << "FINISH CHILDREN" << endl;
+
+    //         // cout << "START ALLOWED" << endl;
+    //         // cout << tokenNode->getAllowed() << endl;
+    //         // cout << "FINISH ALLOWED" << endl;
+
+    //         if (tokenNode->isAllowed(tokenChar)) {
+    //             if (tokenNode->hasChild(tokenChar)) {
+    //                 cout << "IS CHILD" << endl;
+
+    //                 token += tokenChar;
+    //                 tokenBool = tokenNode->isReserved();
+                
+    //                 tokenNode = tokenNode->getChild(tokenChar);
+    //                 getChar();
+                                        
+    //             } else {                    
+    //                 cout << "NOT CHILD" << endl;
+
+    //                 token += tokenChar;
+    //                 tokenBool = false;
+
+    //                 getChar();
+    //             }
+    //         } else {
+    //             cout << "NOT ALLOWED" << endl;
+
+    //             if (tokenNode == dfaTree->getRoot())
+    //                 throw new LexerException();
+    //             else {
+    //                 ungetChar();
+    //                 break;                
+    //             }
+    //         }
+    //     }
+
+    //     if (token.size() > 0) {            
+    //         tokens.push_back(Token::fromString(token, tokenBool, tokenX - token.length(), tokenY));
+    //     }
+
+    //     token.clear();
+    // }
 
     return tokens;
-}
-
-void Lexer::getChar() 
-{
-    if (!fileStream.eof()) {
-
-        if (tokenChar == '\n') { 
-            tokenX = -1; 
-            tokenY++; 
-        }         
-
-        tokenChar = fileStream.get();
-        tokenX++;
-    }
-}
-
-void Lexer::ungetChar()
-{
-    tokenX--;
-    fileStream.unget();
 }
 
 bool Lexer::isReady() 
