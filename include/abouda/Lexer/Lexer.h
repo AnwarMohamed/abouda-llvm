@@ -19,7 +19,7 @@ static const char kAllowed[] = {
     'i', 'I', 'j', 'J', 'k', 'K', 'l', 'L', 'm', 'M', 'n', 'N', 'o', 'O', 
     'p', 'P', 'q', 'Q', 'r', 'R', 's', 'S', 't', 'T', 'u', 'U', 'v', 'V', 
     'w', 'W', 'x', 'X', 'y', 'Y', 'z', 'Z', '0', '1', '2', '3', '4', '5',
-    '6', '7', '8', '9'
+    '6', '7', '8', '9', ',', '#', '\n'
 };
 
 static const char* kAlpha = {
@@ -42,18 +42,8 @@ static const char* kAlphaNumUnder = {
 static const char* kAllChars = {     
     "abcdefghijklmnopqrstuvwxyz"
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    "!@#$^&*()_+=-][{}'\";:~.,><?%%"
+    "!@#$^&*()_+=-][{}'\";:~.,><?%%\n"
     "0123456789"
-};
-
-static const char* kReserved[] = {
-    "fn", "type", "return",
-    "for", "in", "break", "continue", "if", "else",
-    "match", "_", "true", "false",
-    "{", "}", "(", ")", "[", "]",
-    ">=", "<=", "==", "!=", "&&", "||", ">", "<",
-    "=", "!", "&", "^", "|", 
-    "\"", "'"
 };
 
 namespace Abouda {          
@@ -73,10 +63,15 @@ namespace Abouda {
 
             string delimiter;
             string token;
+
             int tokenChar;
+            int tokenX, tokenY;
 
             DfaTree* dfaTree;
             void constructDfaTree();
+
+            void getChar();
+            void ungetChar();            
         };  
 
     }

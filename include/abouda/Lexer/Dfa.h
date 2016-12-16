@@ -51,7 +51,8 @@ namespace Abouda {
         private:
             void traverseNode(DfaNode* node, int x, int y);
 
-            DfaNode* rootNode;          
+            DfaNode* rootNode;
+            DfaNode* identifierNode;
         };
 
     }

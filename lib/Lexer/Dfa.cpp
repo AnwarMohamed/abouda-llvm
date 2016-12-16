@@ -8,7 +8,7 @@ using namespace std;
 DfaTree::DfaTree() 
 {
     rootNode = new DfaNode("root");
-    rootNode->setAllowed(kAlpha);
+    rootNode->setAllowed(kAllowed);
 }
 
 DfaNode* DfaTree::getRoot()
@@ -38,8 +38,8 @@ void DfaTree::insertNode(char* value)
         if (valuePtr + 1 == valueLen)
             node->setReserved(true);
 
-        cout << (valueLen-valuePtr+1) << ": " << value << "\t";
-        cout <<  (char) valueChar << "\t" << node->getAllowed() << endl;
+        // cout << (valueLen-valuePtr+1) << ": " << value << "\t";
+        // cout <<  (char) valueChar << "\t" << node->getAllowed() << endl;
 
         valueChar = *(value + ++valuePtr);        
     }
@@ -112,7 +112,7 @@ string DfaNode::getAllowed()
 
 bool DfaNode::isAllowed(int value)
 {
-    allowed.find(value) != string::npos;
+    return allowed.find(value) != string::npos;
 }
 
 void DfaNode::setAllowed(string allowed)
