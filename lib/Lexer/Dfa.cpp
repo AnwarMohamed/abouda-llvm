@@ -8,15 +8,12 @@ using namespace std;
 DfaTree::DfaTree() 
 {
     rootNode = new DfaNode("root");
-    rootNode->setAllowed(kAllowed);
+    rootNode->setAllowed(kAllowed);   
 }
 
-DfaNode* DfaTree::getRoot()
-{
-    return rootNode;
-}
+DfaNode* DfaTree::getRoot() { return rootNode; }
 
-void DfaTree::insertNode(char* value)
+void DfaTree::insertRoot(char* value)
 {
     DfaNode* node = rootNode;
     
@@ -38,36 +35,30 @@ void DfaTree::insertNode(char* value)
         if (valuePtr + 1 == valueLen)
             node->setReserved(true);
 
-        // cout << (valueLen-valuePtr+1) << ": " << value << "\t";
-        // cout <<  (char) valueChar << "\t" << node->getAllowed() << endl;
-
         valueChar = *(value + ++valuePtr);        
     }
 }
 
-void DfaTree::traverseNodes()
+void DfaTree::traverseRoot()
 {
-    traverseNode(rootNode, 0, 0);
+    traverseRootR(rootNode, 0, 0);
 }
 
-void DfaTree::traverseNode(DfaNode* node, int x, int y)
+void DfaTree::traverseRootR(DfaNode* node, int x, int y)
 {
-    // cout << x << ":" << y << " " << node->getValue();
-
-    // if (node->isReserved())
-    //     cout << "\t*" << endl;
-    // else
-    //     cout << endl;
-
     int offset = 0;
     for (auto child: node->getChildren())
-        traverseNode(child.second, x+ offset++, y+1);
+        traverseRootR(child.second, x+ offset++, y+1);
 }
 
 DfaTree::~DfaTree() 
 {
     delete rootNode;    
 }
+
+
+
+
 
 
 

@@ -15,13 +15,21 @@ int main(int argc, char** argv) {
     if (!lexer->isReady())
         return -1;
             
-    auto tokens = lexer->generateTokens();
+    try {
+        auto tokens = lexer->generateTokens();
 
-    for (auto token: tokens) {
-        cout << left << setw(10) << to_string(token->getY() + 1) + ":" + to_string(token->getX() + 1);
-        cout << left << setw(20) << token->getType();
-        cout << left << setw(20) << "'" + token->getLexeme() + "'";        
-        cout << endl;
+        for (auto token: tokens) {
+            cout << left << setw(10) << to_string(token->getY()+1) + ":" + to_string(token->getX()+1);
+            cout << left << setw(20) << token->getType();
+            cout << left << setw(20) << "'" + token->getLexeme() + "'";        
+            cout << endl;
+        }        
+
+    } catch (const LexerException& e) {
+        cerr << "Exception caught " << e.what() << endl;
+
+    } catch (...) {
+        cerr << "Unknown exception caught\n";
     }
     
     delete lexer;

@@ -38,21 +38,21 @@ namespace Abouda {
             bool reserved;
         };
 
+
         class DfaTree
         {
         public:
             DfaTree();
             ~DfaTree();
 
-            void insertNode(char* node);
-            void traverseNodes();
+            void insertRoot(char* node);
+            void traverseRoot();
 
             DfaNode* getRoot();
         private:
-            void traverseNode(DfaNode* node, int x, int y);
+            void traverseRootR(DfaNode* node, int x, int y);
 
             DfaNode* rootNode;
-            DfaNode* identifierNode;
         };
 
     }

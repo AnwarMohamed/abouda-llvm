@@ -3,15 +3,23 @@
 
 #include <string>
 #include <map>
+#include <regex>
 
 using namespace std;
 
-enum kTokensEnum {
-    ANWAR
-};
+static const char kRawPattern[] = "^(\".*\")|(\'.*\')$";
+static const char kStringPattern[] = "[a-zA-Z_][a-zA-Z0-9]*";
+static const char kIntegerPattern[] = "(\\+|-)?[[:digit:]]+";
+static const char kFloatPattern[] = 
+    "(([1-9][0-9]*.?[0-9]*)|(.[0-9]+))([Ee][+-]?[0-9]+)?";
+
+static const regex kRawRegex(kRawPattern);
+static const regex kStringRegex(kStringPattern);
+static const regex kIntegerRegex(kIntegerPattern);
+static const regex kFloatRegex(kFloatPattern);
 
 static const map<string, string> kTokens = {
-    { "fn",     "TOKEN_FUNC_DEF" },
+    { "fn",     "TOKEN_FUNC" },
     { "type",   "TOKEN_TYPE" },
     { "return", "TOKEN_RETURN" },
     { "for",    "TOKEN_FOR" },
@@ -23,7 +31,7 @@ static const map<string, string> kTokens = {
     { "true",   "TOKEN_TRUE" },
     { "false",  "TOKEN_FALSE" },    
 
-    { "continue", "TOKEN_CONTINUE" },
+    { "continue", "TOKEN_CONT" },
 
     { "{", "TOKEN_LBRACE" },
     { "}", "TOKEN_RBRACE" },
@@ -56,8 +64,7 @@ static const map<string, string> kTokens = {
 
     { "\"", "TOKEN_DQUOTES" },
     { "'", "TOKEN_QUOTE" },    
-    { ",", "TOKEN_COMMA" },
-    { ".", "TOKEN_DOT" },
+    { ",", "TOKEN_COMMA" },    
     { "\n", "TOKEN_NEWLINE" },
 };
 
@@ -75,14 +82,14 @@ namespace Abouda {
             int getX();
             int getY();
 
-            static Token* fromString(string token, bool reserved, int x, int y);
+            static Token* fromString(string token, int x, int y);
             static bool isInteger(string token);
 
         private:
             string lexeme;
             string type;
 
-            int x, y;
+            int x, y;            
         };
 
     }

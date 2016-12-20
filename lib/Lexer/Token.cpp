@@ -1,6 +1,11 @@
+#include <iostream>
+#include <iomanip>
+
 #include "abouda/Lexer/Token.h"
+#include "abouda/Lexer/LexerException.h"
 
 using namespace Abouda::Lexer;
+using namespace std;
 
 Token::Token(string lexeme, string type, int x, int y) 
 {       
@@ -13,42 +18,35 @@ Token::Token(string lexeme, string type, int x, int y)
         this->lexeme = "\\n";
 }
 
-string Token::getLexeme() 
-{
-    return lexeme;
-}
-
-string Token::getType()
-{
-    return type;
-}
-
-bool Token::isInteger(string token)
-{
-    if (token.empty() || 
-        ((!isdigit(token[0])) && 
-            (token[0] != '-') && 
-            (token[0] != '+'))) 
-        return false ;
-
-    char* p;
-    strtol(token.c_str(), &p, 10) ;
-
-    return (*p == 0) ;
-}
+string Token::getLexeme() { return lexeme; }
+string Token::getType() { return type; }
 
 int Token::getX() { return x; }
 int Token::getY() { return y; }
 
-Token* Token::fromString(string token, bool reserved, int x , int y)
+Token* Token::fromString(string token, int x , int y)
 {
+    Token* tokenObj;
+
     if (kTokens.find(token) != kTokens.end())
-        return new Token(token, kTokens.at(token), x, y);
+        tokenObj = new Token(token, kTokens.at(token), x, y);
     
-    else if (isInteger(token))
-        return new Token(token, "TOKEN_INTEGER", x, y);
+    else if (regex_match(token, kIntegerRegex))
+        tokenObj = new Token(token, "TOKEN_INTEGER", x, y);
+
+    else if (regex_match(token, kFloatRegex))
+        tokenObj = new Token(token, "TOKEN_FLOAT", x, y);   
+
+    else if (regex_match(token, kStringRegex))
+        tokenObj = new Token(token, "TOKEN_IDENT", x, y);  
+
+    else if (regex_match(token, kRawRegex))
+        tokenObj = new Token(token, "TOKEN_STRING", x, y); 
+
     else 
-        return new Token(token, "", x, y);
+        throw LexerException(x, y, token);
+
+    return tokenObj;   
 }
 
 Token::~Token() {
