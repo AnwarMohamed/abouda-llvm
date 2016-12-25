@@ -82,8 +82,7 @@ namespace Abouda {
             int getX();
             int getY();
 
-            static Token* fromString(string token, int x, int y);
-            static bool isInteger(string token);
+            static Token* fromString(string token, int x, int y);            
 
         private:
             string lexeme;

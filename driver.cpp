@@ -1,8 +1,10 @@
 #include <iostream>
 #include <iomanip>
 #include "abouda/Lexer/Lexer.h"
+#include "abouda/Parser/Parser.h"
 
 using namespace Abouda::Lexer;
+using namespace Abouda::Parser;
 using namespace std;
 
 
@@ -18,12 +20,15 @@ int main(int argc, char** argv) {
     try {
         auto tokens = lexer->generateTokens();
 
-        for (auto token: tokens) {
-            cout << left << setw(10) << to_string(token->getY()+1) + ":" + to_string(token->getX()+1);
-            cout << left << setw(20) << token->getType();
-            cout << left << setw(20) << "'" + token->getLexeme() + "'";        
-            cout << endl;
-        }        
+        // for (auto token: tokens) {
+        //     cout << left << setw(10) << to_string(token->getY()+1) + ":" + to_string(token->getX()+1);
+        //     cout << left << setw(20) << token->getType();
+        //     cout << left << setw(20) << "'" + token->getLexeme() + "'";        
+        //     cout << endl;
+        // }        
+
+        auto parser = new Parser();
+        auto parseTree = parser->generateTree();
 
     } catch (const LexerException& e) {
         cerr << "Exception caught " << e.what() << endl;
