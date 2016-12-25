@@ -55,6 +55,7 @@ static const map<string, string> kTokens = {
     { "*", "TOKEN_ASTERISK" },
     { "/", "TOKEN_SLASH" },
     { "!", "TOKEN_NOT" },
+    { "%", "TOKEN_PERCENTAGE" },
     { "&", "TOKEN_BAND" },
     { "^", "TOKEN_BXOR" },
     { "|", "TOKEN_BOR" },
@@ -82,7 +83,7 @@ namespace Abouda {
             int getX();
             int getY();
 
-            static Token* fromString(string token, int x, int y);            
+            static Token* fromString(string token, int x, int y);
 
         private:
             string lexeme;
