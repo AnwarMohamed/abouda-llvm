@@ -6,6 +6,7 @@ set(SRC_FILES
    Parser.cpp
    Parse.cpp
    Grammar.cpp
+   GrammarNode.cpp
 )
 
 add_library(parser STATIC ${SRC_FILES})
